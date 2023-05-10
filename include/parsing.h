@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   structs.h                                          :+:    :+:            */
+/*   parsing.h                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/10 17:22:52 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:23:03 by ahorling      ########   odam.nl         */
+/*   Created: 2023/05/10 17:23:00 by ahorling      #+#    #+#                 */
+/*   Updated: 2023/05/10 17:23:02 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
+#ifndef PARSING_H
+# define PARSING_H
 
-# include <unistd.h>
+# include "structs.h"
 
-typedef struct	s_info
-{
-	size_t		num_of_philos;
-	size_t		time_to_die;
-	size_t		time_to_eat;
-	size_t		time_to_sleep;
-	size_t		eat_count;
-}	t_info;
+int		check_params(t_info *info);
+t_info	initialize_params(t_info *info, int argc, char **argv);
 
 #endif
