@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   philos.c                                           :+:    :+:            */
+/*   philo_utils.h                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/10 17:03:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/10 23:39:13 by ahorling      ########   odam.nl         */
+/*   Created: 2023/05/10 21:35:09 by ahorling      #+#    #+#                 */
+/*   Updated: 2023/05/10 22:23:01 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <pthread.h>
-#include "include/structs.h"
-#include "include/philo_utils.h"
+#ifndef PHILO_UTILS_H
+# define PHILO_UTILS_H
 
-void	*test()
-{
-	printf("%ld: philo said hello\n", timecall());
-	return (0);
-}
+# include <unistd.h>
 
-int	philosophize(t_info *info)
-{
-	pthread_t thread;
+long	timecall();
 
-	if (pthread_create(&thread, NULL, &test, NULL) == -1)
-		return (1);
-	if (pthread_join(thread, NULL) == -1)
-		return (1);
-	return (0);
-}
+#endif UTILS_H
