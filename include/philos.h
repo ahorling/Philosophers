@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_atoi.h                                          :+:    :+:            */
+/*   philos.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/10 17:23:53 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:23:54 by ahorling      ########   odam.nl         */
+/*   Created: 2023/05/10 23:42:27 by ahorling      #+#    #+#                 */
+/*   Updated: 2023/05/10 23:43:23 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ATOI_H
-# define FT_ATOI_H
+#ifndef PHILOS_H
+# define PHILOS_H
 
-size_t  ft_atoi(const char *str);
+# include "structs.h"
+
+void	philosophize(t_info *info);
 
 #endif

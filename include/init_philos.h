@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_atoi.h                                          :+:    :+:            */
+/*   init_philos.h                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/10 17:23:53 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:23:54 by ahorling      ########   odam.nl         */
+/*   Created: 2023/05/11 02:39:13 by ahorling      #+#    #+#                 */
+/*   Updated: 2023/05/11 04:20:10 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ATOI_H
-# define FT_ATOI_H
+#ifndef INIT_PHILOS_H
+# define INIT_PHILOS_H
 
-size_t  ft_atoi(const char *str);
+# include "structs.h"
+
+void	free_philos(t_info *info, t_philo *philo);
+t_philo	*init_philo(t_info *info, t_philo *philo, int count);
+t_philo	*spawn_philos(t_info *info);
 
 #endif

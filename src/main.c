@@ -1,35 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/10 17:02:51 by ahorling      #+#    #+#                 */
+/*   Updated: 2023/05/11 05:44:08 by ahorling      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
 #include <unistd.h>
-#include "philos_utils.h"
-#include "structs.h"
+#include <stdio.h>
+#include "philos.h"
+#include "parsing.h"
 
 int	main(int argc, char **argv)
 {
 	t_info	*info;
 	int		error;
 
-	if (argc != 4 || argc != 5)
-		printf("Invalid number of arguments\n");
-	else
+	if (argc != 5 && argc != 6)
 	{
-		*info = initialize_params(info, argc, argv);
-		if (!info)
-			return ;
-		error = check_params(info);
-		if (error = 1)
-		{
-			write(2, "please ensure that your inputs are valid numbers\n", 49);
-			free(info);
-			return ;
-		}
-		if (error = 2)
-		{
-			write(2, "must have at least 1 philosopher, ", 35);
-			write(2, "or 2 if you don't want to watch it die alone\n", 45);
-			free(info);
-			return ;
-		}
-		philosophize(info);
+		printf("Invalid number of arguments\n");
+		return (-1);
 	}
+	info = initialize_info(info, argc, argv);
+	if (!info)
+		return (-1);
+	error = param_errors(info);
+	if (error != 0)
+		return (-1);
+	philosophize(info);
 	free(info);
-	return ;
+	return (0);
 }
