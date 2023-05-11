@@ -6,7 +6,7 @@
 #    By: ahorling <ahorling@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/10 22:10:10 by ahorling      #+#    #+#                  #
-#    Updated: 2023/05/10 23:46:11 by ahorling      ########   odam.nl          #
+#    Updated: 2023/05/11 03:22:05 by ahorling      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,13 +32,14 @@ CFLAGS := -Wall -Wextra -Werror -pthread
 ############### SOURCES ##############
 
 SOURCES 	:=	main.c \
+				init_philos.c \
 				parsing.c \
 				philo_utils.c \
 				philos.c \
-				utils/ft_atoi.c \
+				utils/ft_atoi.c 
 
-INCLUDES	=	-I include \
-				-I include/utils \
+INCLUDES	:=	-I include \
+				-I include/utils 
 				
 SOURCE_DIR 	:=	src
 OBJECT_DIR	:=	objects
@@ -62,7 +63,7 @@ $(NAME): $(OBJECTS)
 
 $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) -c -o $@ $<
+	@$(CC) $(CCFLAGS) $(INCLUDES) -c -o $@ $<
 
 run:
 	make && ./$(NAME)
@@ -73,7 +74,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@if [ -d "$(OBJECT_DIR)" ]; then rm -d $(OBJECT_DIR); fi
+	@if [ -d "$(OBJECT_DIR)" ]; then rm -rf $(OBJECT_DIR); fi
 	@echo "$(RED)$(MESSAGE_FRM)$(RESET)"
 
 re: fclean all
