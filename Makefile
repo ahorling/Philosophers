@@ -6,7 +6,7 @@
 #    By: ahorling <ahorling@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/10 22:10:10 by ahorling      #+#    #+#                  #
-#    Updated: 2023/05/11 03:22:05 by ahorling      ########   odam.nl          #
+#    Updated: 2023/05/12 13:18:46 by ahorling      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,12 @@ CFLAGS := -Wall -Wextra -Werror -pthread
 
 SOURCES 	:=	main.c \
 				init_philos.c \
+				paramedic.c \
 				parsing.c \
 				philo_utils.c \
 				philos.c \
-				utils/ft_atoi.c 
+				utils/ft_atoi.c \
+				utils/ft_strlen.c
 
 INCLUDES	:=	-I include \
 				-I include/utils 

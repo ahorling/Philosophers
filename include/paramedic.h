@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   philo_utils.h                                      :+:    :+:            */
+/*   paramedic.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/10 21:35:09 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/12 19:55:46 by ahorling      ########   odam.nl         */
+/*   Created: 2023/05/12 12:54:16 by ahorling      #+#    #+#                 */
+/*   Updated: 2023/05/12 14:53:31 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_UTILS_H
-# define PHILO_UTILS_H
+#ifndef PARAMEDIC_H
+# define PARAMEDIC_H
 
-# include <unistd.h>
-# include "structs.h"
+# include"structs.h"
 
-size_t		timecall();
-size_t		runtime(t_info *info);
-void		join_threads(pthread_t *threads, int thread_count);
-pthread_t	*spawn_threads(t_info *info);
-void		good_sleep(t_info *info, size_t sleep_time);
+int	check_philos(t_info *info, t_philo *philo);
+int	paramedic(t_info *info, t_philo *philo, pthread_t *threads);
 
 #endif

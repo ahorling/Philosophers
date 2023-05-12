@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 01:14:07 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/11 05:21:09 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/12 14:50:46 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_philo	*init_philo(t_info *info, t_philo *philo, int count)
 	philo->eat_count = 0;
 	philo->eating = false;
 	philo->last_ate = 0;
+	philo->isdead = false;
 	philo->fork = malloc(sizeof(pthread_mutex_t));
 	if (!philo->fork)
 	{

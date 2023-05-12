@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:02:58 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/11 04:28:20 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/12 15:44:00 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ t_info	*initialize_info(t_info *info, int argc, char **argv)
 	// printf("times a philosopher must sleep is: %zu\n",inf->time_to_sleep);
 	// printf("amount of times a philosopher must eat is: %zu\n", inf->eat_count);
 	inf->starttime = timecall();
-	inf->isdead = false;
+	inf->deadphilo = false;
+	inf->death = malloc(sizeof(pthread_mutex_t));
+	inf->printable = malloc(sizeof(pthread_mutex_t));
 	return (inf);
 }
