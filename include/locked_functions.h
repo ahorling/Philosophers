@@ -17,5 +17,8 @@
 
 int		check_philos(t_info *info, t_philo *philo);
 void	print_message(t_info *info, t_philo *philo, char *string);
+void	pickup_fork(t_info *info, t_philo *philo);
+void	drop_forks(t_philo *philo);
+int     starve_check(t_info *info, t_philo *philo);
 
 #endif

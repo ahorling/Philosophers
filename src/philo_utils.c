@@ -47,10 +47,18 @@ void	join_threads(pthread_t *threads, int thread_count)
 
 /*own version of sleep that sleeps in 50 microsecond intervals,
 before checking if it no longer needs to sleep anymore.*/
-void	good_sleep(t_info *info, size_t sleep_time)
+void	good_sleep(t_info *info, size_t sleeptime)
 {
-	while (sleep_time >= runtime(info) - info->starttime)
-		usleep(50);
+	size_t	end;
+	size_t	time;
+
+	end = runtime(info) + sleeptime;
+	time = runtime(info);
+	while (time < end)
+	{
+		usleep(100);
+		time = runtime;
+	}
 }
 
 /*allocate space for all the threads the philosophers are going to use.*/

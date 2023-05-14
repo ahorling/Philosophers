@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <pthread.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include "philo_utils.h"
 #include "structs.h"
@@ -26,6 +27,7 @@ int	check_philos(t_info *info, t_philo *philo)
 	return (0);
 }
 
+/*let the philo print it's message, preventing others from printing their own messages in the meantime*/
 void	print_message(t_info *info, t_philo *philo, char *string)
 {
 	pthread_mutex_lock(info->printable);
@@ -36,4 +38,34 @@ void	print_message(t_info *info, t_philo *philo, char *string)
 		return ;
 	}
 	pthread_mutex_unlock(info->printable);
+}
+
+void	pickup_fork(t_info *info, t_philo *philo)
+{
+	pthread_mutex_lock(philo->fork);
+	print_message(info, philo, "has taken a fork");
+	pthread_mutex_lock(philo->next->fork);
+	print_message(info, philo, "has taken a fork");
+}
+
+void	drop_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->fork);
+	pthread_mutex_unlock(philo->next->fork);
+}
+
+int		starve_check(t_info *info, t_philo *philo)
+{
+	int time;
+
+	pthread_mutex_lock(info->death);
+	time = runtime(info);
+	if (time - philo->last_ate >= info->time_to_die)
+	{
+		philo->isdead = true;
+		pthread_mutex_unlock(info->death);
+		return (-1);
+	}
+	pthread_mutex_unlock(info->death);
+	return (0);
 }

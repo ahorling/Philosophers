@@ -43,15 +43,23 @@
 // 	return ;
 // }
 
-static void	run_thread(t_philo *philo, t_info *info)
+static void	thread(t_philo *philo, t_info *info)
 {
-	usleep (50);
 	while (1)
 	{
-		if (info->num_of_philos == 1)
-		{
-			
-		}
+		if (starve_check(info, philo) != 0)
+			return ;
+		pickup_fork(info, philo);
+		if (starve_check(info, philo) != 0)
+			return ;
+		if (eat(info, philo) != 0)
+			return ;
+		drop_forks(philo);
+		print_message(info, philo, "is sleeping");
+		good_sleep(info, info->time_to_sleep);
+		if (starve_check(info, philo != 0))
+			return ;
+		print_message(info, philo, "is thinking");
 	}
 	return ;
 }
@@ -63,7 +71,9 @@ void *thread_start(void *arg)
 	t_philo *philo;
 
 	philo = (t_philo *)arg;
-	run_thread(philo, philo->info);
+    if ((philo->number % 2) == 0)
+        usleep(150);
+	thread(philo, philo->info);
 	return (NULL);
 }
 
@@ -125,6 +135,7 @@ int	philosophize(t_info *info)
 {
 	t_philo		*philo;
 	pthread_t 	*threads;
+	int			status;
 
 	philo = spawn_philos(info);
 	if (!philo)
@@ -140,8 +151,11 @@ int	philosophize(t_info *info)
 	}
 	if (activate_philos(info, philo, threads) != 0)
 		free_philos(info, philo);
-	if (paramedic(info, philo, threads) != 0)
+	status = paramedic(info, philo, threads);
+	if (status == -1)
 		return (-1);
+	else if (status == 1)
+		printf("all philos have finished eating!");
 	join_threads(threads, info->num_of_philos);
 	printf("all philos ended\n");
 	return (0);

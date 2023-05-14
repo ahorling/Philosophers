@@ -20,6 +20,6 @@ size_t		timecall();
 size_t		runtime(t_info *info);
 void		join_threads(pthread_t *threads, int thread_count);
 pthread_t	*spawn_threads(t_info *info);
-void		good_sleep(t_info *info, size_t sleep_time);
+void		good_sleep(t_info *info, size_t sleeptime);
 
 #endif
