@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 12:50:21 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/12 20:15:27 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/15 22:14:55 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,33 @@
 
 #include <stdio.h>
 
+/*if paramedic detects that someone died, print that.*/
+void	print_death(t_info *info, t_philo *philo)
+{
+	pthread_mutex_lock(info->death);
+	if (philo->isdead == true)
+	{
+		printf("%zu %d %s\n", runtime(info), philo->number, "died");
+		pthread_mutex_unlock(info->death);
+		return ;
+	}
+	pthread_mutex_unlock(info->death);
+}
+
+/*check if all philos have eaten their fill*/
 static int	check_full(int eatcount, t_philo *philo)
 {
 	t_philo *temp;
 
 	temp = philo;
-	while (temp->eat_count == eatcount)
+	if (eatcount >= 0)
 	{
-		if (temp->next == NULL)
-			return (1);
-		philo = philo->next;
+		while(temp->satiated == true)
+		{
+			if(temp->next == NULL)
+				return (1);
+			temp = temp->next;
+		}
 	}
 	return (0);
 }
@@ -40,17 +57,15 @@ int	paramedic(t_info *info, t_philo *philo, pthread_t *threads)
 	int		status;
 	t_philo *temp;
 
-	// printf("the paramedic is active\n");
 	while (1)
 	{
 		while (temp)
 		{
-			status = check_philos(info, temp);
+			status = starve_check(info, temp);
 			if (status != 0)
 			{
 				info->deadphilo = true;
-				printf("Philo number %d has died!\n", status);
-				pthread_mutex_unlock(info->death);
+				print_death(info, temp);
 				join_threads(threads, info->num_of_philos);
 				return (-1);
 			}
@@ -58,7 +73,12 @@ int	paramedic(t_info *info, t_philo *philo, pthread_t *threads)
 		}
 		temp = philo;
 		if (check_full(info->eat_count, temp) == 1)
+		{
+			info->finished = true;
+			join_threads(threads, info->num_of_philos);
+			printf("%zu: All philos have finished eating!\n", runtime(info));
 			return (1);
+		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:22:52 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/12 15:43:00 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/15 22:17:35 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct	s_info
 	bool			deadphilo;
 	pthread_mutex_t	*death;
 	pthread_mutex_t	*printable;
+	pthread_mutex_t	*timelock;
+	bool			finished;
 }	t_info;
 
 /*This struct containst all information that each philosopher would need
@@ -40,7 +42,6 @@ typedef struct s_philo
 {
 	int				number;
 	int				eat_count;
-	bool			eating;
 	bool			isdead;
 	size_t			last_ate;
 	pthread_t		thread;
@@ -48,6 +49,7 @@ typedef struct s_philo
 	t_info	*info;
 	struct s_philo	*next;
 	struct s_philo	*prev;
+	bool			satiated;
 }	t_philo;
 
 #endif

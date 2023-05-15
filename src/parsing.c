@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:02:58 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/12 15:44:00 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/15 22:17:36 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "philo_utils.h"
 
 /*check for possible errors in the dictated parameters.*/
-int	check_params(t_info *info)
+int	check_params(t_info *info, int argc)
 {
 	int i;
 
@@ -33,7 +33,7 @@ int	check_params(t_info *info)
 		i = 1;
 	if (info->time_to_sleep < 0)
 		i = 1;
-	if (info->eat_count < 0)
+	if (info->eat_count < 0 && argc == 6)
 		i = 1;
 	if (info->num_of_philos == 0)
 		i = 2;
@@ -43,11 +43,11 @@ int	check_params(t_info *info)
 }
 
 /*return different errors depending on what parsing error was discovered.*/
-int	param_errors(t_info *info)
+int	param_errors(t_info *info, int argc)
 {
 	int error;
 
-	error = check_params(info);
+	error = check_params(info, argc);
 	if (error == 1)
 	{
 		write(STDERR_FILENO, "please ensure that your inputs are valid numbers\n", 49);
@@ -87,7 +87,7 @@ t_info	*initialize_info(t_info *info, int argc, char **argv)
 	if (argc == 6)
 		inf->eat_count = ft_atoi(argv[5]);
 	else
-		inf->eat_count = 0;
+		inf->eat_count = -1;
 	// printf("number of philosophers is: %zu\n", inf->num_of_philos);
 	// printf("time before a philosopher dies is: %zu\n", inf->time_to_die);
 	// printf("times a philosopher must eat is: %zu\n", inf->time_to_eat);
@@ -95,7 +95,9 @@ t_info	*initialize_info(t_info *info, int argc, char **argv)
 	// printf("amount of times a philosopher must eat is: %zu\n", inf->eat_count);
 	inf->starttime = timecall();
 	inf->deadphilo = false;
+	inf->finished = false;
 	inf->death = malloc(sizeof(pthread_mutex_t));
 	inf->printable = malloc(sizeof(pthread_mutex_t));
+	inf->timelock = malloc(sizeof(pthread_mutex_t));
 	return (inf);
 }

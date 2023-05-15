@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:02:51 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/11 08:36:08 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/15 21:15:39 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #include <stdio.h>
 #include "philos.h"
 #include "parsing.h"
+
+void	leaks()
+{
+	system("leaks -q philo");
+}
+
 
 int	main(int argc, char **argv)
 {
@@ -37,13 +43,10 @@ int	main(int argc, char **argv)
 		free(info);
 		return (0);
 	}
-	error = param_errors(info);
+	error = param_errors(info, argc);
 	if (error != 0)
-	{
-		free(info);
 		return (-1);
-	}
 	philosophize(info);
-	free(info);
+	atexit(leaks);
 	return (0);
 }

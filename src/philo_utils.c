@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 21:18:31 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/12 20:23:09 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/15 22:17:59 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ size_t	timecall()
 /*math out the number of milliseconds since the start of the program*/
 size_t	runtime(t_info *info)
 {
+	size_t	ret;
+
+	pthread_mutex_lock(info->timelock);
+	ret = timecall() - info->starttime;
+	pthread_mutex_unlock(info->timelock);
 	return (timecall() - info->starttime);
 }
 
@@ -52,13 +57,15 @@ void	good_sleep(t_info *info, size_t sleeptime)
 	size_t	end;
 	size_t	time;
 
+	pthread_mutex_lock(info->timelock);
 	end = runtime(info) + sleeptime;
 	time = runtime(info);
 	while (time < end)
 	{
-		usleep(100);
-		time = runtime;
+		usleep(200);
+		time = runtime(info);
 	}
+	pthread_mutex_unlock(info->timelock);
 }
 
 /*allocate space for all the threads the philosophers are going to use.*/

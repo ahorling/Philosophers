@@ -6,38 +6,19 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 01:14:07 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/12 14:50:46 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/15 20:52:21 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include "frees.h"
 #include "structs.h"
 
 
 
 #include <stdio.h>
-/*loop through the list of philosophers starting at the lowest point and going backwards.*/
-void	free_philos(t_info *info, t_philo *philo)
-{
-	t_philo *temp;
-
-	if (!philo)
-		return ;
-	while (philo)
-	{
-		temp = philo->next;
-		if (philo->fork)
-		{
-			pthread_mutex_destroy(philo->fork);
-			free(philo->fork);
-		}
-		free(philo);
-		philo = temp;
-	}
-	philo = NULL;
-}
 
 /*initialize each philosopher as it is added to the linked list of philosophers*/
 t_philo	*init_philo(t_info *info, t_philo *philo, int count)
@@ -50,9 +31,9 @@ t_philo	*init_philo(t_info *info, t_philo *philo, int count)
 	}
 	philo->number = count;
 	philo->eat_count = 0;
-	philo->eating = false;
 	philo->last_ate = 0;
 	philo->isdead = false;
+	philo->satiated = false;
 	philo->fork = malloc(sizeof(pthread_mutex_t));
 	if (!philo->fork)
 	{
