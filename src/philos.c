@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:03:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 21:36:54 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 22:37:50 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,6 @@ static void	thread(t_philo *philo, t_info *info)
 			return ;
 		if (info->finished == true || check_philos(info, philo) != 0)
 			return ;
-		pthread_mutex_lock(info->death);
-		if (philo->eat_count == info->eat_count)
-		{
-			philo->satiated = true;
-			pthread_mutex_unlock(info->death);
-		}
-		else
-			pthread_mutex_unlock(info->death);
 		print_message(info, philo, "is sleeping");
 		good_sleep(info, info->time_to_sleep);
 		print_message(info, philo, "is thinking");

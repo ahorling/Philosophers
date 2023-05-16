@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 15:39:59 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 20:09:49 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 22:37:16 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ int	eat(t_info *info, t_philo *philo)
 	if (check_philos(info, philo) != 0)
 		return (1);
 	philo->eat_count++;
+	pthread_mutex_lock(info->death);
+	if (philo->eat_count == info->eat_count)
+		philo->satiated = true;
+	pthread_mutex_unlock(info->death);
 	pthread_mutex_lock(info->timelock);
 	philo->last_ate = runtime(info);
 	pthread_mutex_unlock(info->timelock);

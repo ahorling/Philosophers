@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:02:58 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 22:05:42 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 22:44:47 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ int	check_params(t_info *info, int argc, char **argv)
 		i = 3;
 	if (info->num_of_philos == 0)
 		i = 2;
-	if (ft_strncmp("above 0", argv[5], 7) == 0)
+	if (argc == 6)
 	{
-		write(STDERR_FILENO, "Listen here you little shit...\n", 31);
-		return (4);
+		if (ft_strncmp("above 0", argv[5], 7) == 0)
+		{
+			write(STDERR_FILENO, "Listen here you little shit...\n", 31);
+			return (4);
+		}
 	}
 	return (i);
 }
@@ -69,6 +72,7 @@ int	param_errors(t_info *info, int argc, char **argv)
 	else if (error == 3)
 	{
 		write(STDERR_FILENO, "if specified, eat_count must above 0\n", 37);
+		free(info);
 		return (1);
 	}
 	else if (error == 4)
