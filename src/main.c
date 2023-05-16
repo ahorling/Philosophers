@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:02:51 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 20:47:27 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 21:59:20 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,9 @@ int	main(int argc, char **argv)
 		free(info);
 		return (-1);
 	}
-	if (argc == 6 && info->eat_count == 0)
-	{
-		free(info);
-		return (0);
-	}
-	error = param_errors(info, argc);
+	error = param_errors(info, argc, argv);
 	if (error != 0)
 		return (-1);
-	return (0);
 	philosophize(info);
+	return (0);
 }

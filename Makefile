@@ -6,7 +6,7 @@
 #    By: ahorling <ahorling@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/10 22:10:10 by ahorling      #+#    #+#                  #
-#    Updated: 2023/05/16 20:35:28 by ahorling      ########   odam.nl          #
+#    Updated: 2023/05/16 22:04:33 by ahorling      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SOURCES 	:=	main.c \
 				philo_utils.c \
 				philos.c \
 				utils/ft_atoi.c \
-				utils/ft_strlen.c
+				utils/ft_strlen.c\
+				utils/ft_strncmp.c 
 
 INCLUDES	:=	-I include \
 				-I include/utils 

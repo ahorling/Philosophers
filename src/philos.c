@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:03:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 20:23:51 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 21:36:54 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ static int	activate_philos(t_info *info, t_philo *philo, pthread_t *threads)
 		error = pthread_create(&threads[i], NULL, &thread_start, (void *)temp);
 		if (error != 0)
 		{
-			info->deadphilo = true;
 			pthread_mutex_lock(info->death);
+			info->deadphilo = true;
 			write(STDERR_FILENO, "Thread creation failed\n", 23);
+			pthread_mutex_unlock(info->death);
 			join_threads(threads, i - 1);
 			return (-1);
 		}

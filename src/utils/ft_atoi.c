@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:23:39 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 20:57:55 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 21:14:26 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,9 @@ int	error_check(const char *str)
 	if (str[i] == '+')
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
-	{
-		printf("%c\n", str[i]);
 		i++;
-	}
 	if (str[i] < '0' || str[i] > '9')
-		return (1);
+		return (str[i]);
 	return (0);
 }
 
@@ -41,10 +38,7 @@ size_t	ft_atoi(const char *str)
 	value = 0;
 	neg = 1;
 	if (error_check(str) != 0)
-	{
-		write(STDERR_FILENO, "inputs must be numeric\n", 23);	
-		return (-1);
-	}
+		return (0);
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
