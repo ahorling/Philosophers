@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 21:18:31 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/15 22:17:59 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 19:16:53 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 #include "ft_strlen.h"
 
 /*get the time since january 1st 1970, and convert it into miliseconds.*/
-size_t	timecall()
+size_t	timecall(void)
 {
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return(time.tv_sec * 1000 + time.tv_usec / 1000);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 /*math out the number of milliseconds since the start of the program*/
@@ -30,10 +30,8 @@ size_t	runtime(t_info *info)
 {
 	size_t	ret;
 
-	pthread_mutex_lock(info->timelock);
 	ret = timecall() - info->starttime;
-	pthread_mutex_unlock(info->timelock);
-	return (timecall() - info->starttime);
+	return (ret);
 }
 
 /*join the number of threads specified (should be all of them that had been
@@ -57,7 +55,6 @@ void	good_sleep(t_info *info, size_t sleeptime)
 	size_t	end;
 	size_t	time;
 
-	pthread_mutex_lock(info->timelock);
 	end = runtime(info) + sleeptime;
 	time = runtime(info);
 	while (time < end)
@@ -65,7 +62,6 @@ void	good_sleep(t_info *info, size_t sleeptime)
 		usleep(200);
 		time = runtime(info);
 	}
-	pthread_mutex_unlock(info->timelock);
 }
 
 /*allocate space for all the threads the philosophers are going to use.*/

@@ -6,7 +6,7 @@
 #    By: ahorling <ahorling@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/10 22:10:10 by ahorling      #+#    #+#                  #
-#    Updated: 2023/05/15 20:57:44 by ahorling      ########   odam.nl          #
+#    Updated: 2023/05/16 20:35:28 by ahorling      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ RESET	:= \033[0m
 
 NAME := philo
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -pthread
+CFLAGS := -Wall -Wextra -Werror -pthread #-g -fsanitize=address
 
 ############### SOURCES ##############
 
@@ -63,12 +63,12 @@ MESSAGE_LIB	:=	"LIBRARIES READY"
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	@$(CC) $(CCFLAGS) $(INCLUDES) -o $@ $^
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 	@echo "$(GREEN)$(BOLD)$(MESSAGE_FIN)$(RESET)"
 
 $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CCFLAGS) $(INCLUDES) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 run:
 	make && ./$(NAME)

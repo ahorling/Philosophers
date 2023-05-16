@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 20:46:14 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/15 22:17:32 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 20:09:43 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ void	free_info(t_info *info)
 	free(info);
 }
 
-void	free_threads(t_info *info, pthread_t *threads)
+void	free_threads(pthread_t *threads)
 {
 	free(threads);
 }
 
 /*loop through the list of philosophers starting at the and free as you go.*/
-void	free_philos(t_info *info, t_philo *philo)
+void	free_philos(t_philo *philo)
 {
-	t_philo *temp;
+	t_philo	*temp;
 
 	if (!philo)
 		return ;
@@ -60,14 +60,13 @@ void	free_philos(t_info *info, t_philo *philo)
 		free(philo);
 		philo = temp;
 	}
-	philo = NULL;
 }
 
 /*go through all the things that have been set, and free em*/
 int	free_all(t_info *info, t_philo *philo, pthread_t *threads)
 {
-	free_philos(info, philo);
-	free_threads(info, threads);
+	free_philos(philo);
+	free_threads(threads);
 	free_info(info);
 	return (0);
 }

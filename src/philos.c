@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:03:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/15 22:42:18 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/16 20:23:51 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,16 @@ static void	thread(t_philo *philo, t_info *info)
 	{
 		if (eat(info, philo) != 0)
 			return ;
-		if (info->finished == true)
+		if (info->finished == true || check_philos(info, philo) != 0)
 			return ;
-		if (check_philos(info, philo) != 0)
-			return ;
+		pthread_mutex_lock(info->death);
 		if (philo->eat_count == info->eat_count)
+		{
 			philo->satiated = true;
+			pthread_mutex_unlock(info->death);
+		}
+		else
+			pthread_mutex_unlock(info->death);
 		print_message(info, philo, "is sleeping");
 		good_sleep(info, info->time_to_sleep);
 		print_message(info, philo, "is thinking");
@@ -45,30 +49,30 @@ static void	thread(t_philo *philo, t_info *info)
 
 /*This is the function the threads will run, split off from run_thread to
 make the passing of arguments simpler.*/
-void *thread_start(void *arg)
+static void	*thread_start(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-    if ((philo->number % 2) == 0)
-        usleep(philo->info->time_to_eat * 700);
+	if ((philo->number % 2) == 0)
+		usleep(philo->info->time_to_eat * 700);
 	thread(philo, philo->info);
 	return (NULL);
 }
 
 /*activate the mutex locks on each philosopher, so we can lock
 other philosophers from using them later on.*/
-int	lock_forks(t_info *info, t_philo *philo)
+static int	lock_forks(t_info *info, t_philo *philo)
 {
-	int		count;
+	size_t	count;
 
 	count = 1;
 	if (pthread_mutex_init(info->death, NULL) != 0)
 		return (-1);
 	if (pthread_mutex_init(info->printable, NULL) != 0)
 		return (-1);
-	// if (pthread_mutex_init(info->timelock, NULL) != 0)
-	// 	return (-1);
+	if (pthread_mutex_init(info->timelock, NULL) != 0)
+		return (-1);
 	while (count <= info->num_of_philos)
 	{
 		if (pthread_mutex_init(philo->fork, NULL) != 0)
@@ -82,9 +86,9 @@ int	lock_forks(t_info *info, t_philo *philo)
 
 /*first activate the mutex lock on the fork each philosopher has, so that
 it can be blocked off later. then assign each philosopher it's own thread.*/
-int	activate_philos(t_info *info, t_philo *philo, pthread_t *threads)
+static int	activate_philos(t_info *info, t_philo *philo, pthread_t *threads)
 {
-	int 	i;
+	size_t	i;
 	int		error;
 	t_philo	*temp;
 
@@ -109,13 +113,13 @@ int	activate_philos(t_info *info, t_philo *philo, pthread_t *threads)
 	return (0);
 }
 
-/*First set up the philosophers, then create all the threads, assign each philosopher
-to their own thread, wait for them to finish one way or another,
+/*First set up the philosophers, then create all the threads, assign each
+philosopher to their own thread, wait for them to finish one way or another,
 and then return back to main process.*/
 int	philosophize(t_info *info)
 {
 	t_philo		*philo;
-	pthread_t 	*threads;
+	pthread_t	*threads;
 	int			status;
 
 	philo = spawn_philos(info);
@@ -132,12 +136,9 @@ int	philosophize(t_info *info)
 	}
 	if (activate_philos(info, philo, threads) != 0)
 	{
-		free_philos(info, philo);
+		free_philos(philo);
 		return (-1);
 	}
 	status = paramedic(info, philo, threads);
-	if (status == -1 || 1)
-		return (free_all(info, philo, threads));
-	join_threads(threads, info->num_of_philos);
 	return (free_all(info, philo, threads));
 }
