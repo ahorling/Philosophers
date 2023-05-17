@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:02:51 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 22:43:40 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/17 17:11:24 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	leaks(void)
 int	main(int argc, char **argv)
 {
 	t_info	*info;
-	int		error;
 
 	info = NULL;
 	atexit(leaks);
@@ -36,12 +35,14 @@ int	main(int argc, char **argv)
 	}
 	info = initialize_info(argc, argv);
 	if (!info)
-	{
-		free_info(info);
 		return (-1);
+	if (!info->death || !info->timelock || !info->printable)
+	{
+		write(STDERR_FILENO, "Initialization of a mutex lock failed\n", 38);
+		free_info(info);
+		return (1);
 	}
-	error = param_errors(info, argc, argv);
-	if (error != 0)
+	if (param_errors(info, argc, argv) != 0)
 	{
 		free_info(info);
 		return (-1);

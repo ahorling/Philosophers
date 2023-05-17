@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:03:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 22:37:50 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/17 17:11:41 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int	philosophize(t_info *info)
 	if (activate_philos(info, philo, threads) != 0)
 	{
 		free_philos(philo);
+		free_info(info);
 		return (-1);
 	}
 	status = paramedic(info, philo, threads);

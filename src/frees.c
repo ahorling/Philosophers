@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 20:46:14 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 22:43:20 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/17 17:11:42 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_info(t_info *info)
 		pthread_mutex_destroy(info->timelock);
 		free(info->timelock);
 	}
+	free(info);
 }
 
 static void	free_threads(pthread_t *threads)
@@ -67,6 +68,5 @@ int	free_all(t_info *info, t_philo *philo, pthread_t *threads)
 	free_philos(philo);
 	free_threads(threads);
 	free_info(info);
-	free(info);
 	return (0);
 }

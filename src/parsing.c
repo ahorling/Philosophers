@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:02:58 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/16 22:44:47 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/17 17:11:19 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,17 @@ int	param_errors(t_info *info, int argc, char **argv)
 	if (error == 1)
 	{
 		write(STDERR_FILENO, "invalid time_to_x input\n", 24);
-		free(info);
 		return (1);
 	}
 	else if (error == 2)
 	{
 		write(STDERR_FILENO, "must have at least 1 philosopher, ", 35);
 		write(STDERR_FILENO, "or 2 if you don't want it to die alone\n", 39);
-		free(info);
 		return (1);
 	}
 	else if (error == 3)
 	{
 		write(STDERR_FILENO, "if specified, eat_count must above 0\n", 37);
-		free(info);
 		return (1);
 	}
 	else if (error == 4)
@@ -103,5 +100,7 @@ t_info	*initialize_info(int argc, char **argv)
 	info->death = malloc(sizeof(pthread_mutex_t));
 	info->printable = malloc(sizeof(pthread_mutex_t));
 	info->timelock = malloc(sizeof(pthread_mutex_t));
+	if (!info->death || !info->printable || !info->timelock)
+		return (info);
 	return (info);
 }
