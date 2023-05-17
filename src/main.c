@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 17:02:51 by ahorling      #+#    #+#                 */
-/*   Updated: 2023/05/17 17:11:24 by ahorling      ########   odam.nl         */
+/*   Updated: 2023/05/17 17:24:17 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,11 @@
 #include "philos.h"
 #include "parsing.h"
 
-void	leaks(void)
-{
-	system("leaks -q philo");
-}
-
 int	main(int argc, char **argv)
 {
 	t_info	*info;
 
 	info = NULL;
-	atexit(leaks);
 	if (argc != 5 && argc != 6)
 	{
 		printf("Invalid number of arguments\n");
